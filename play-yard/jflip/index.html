@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Index</title>
+        <!--[if IE]><script type="text/javascript" src="../js/excanvasX.js"></script><![endif]-->
+        <script type="text/javascript" src="js/imagePreloader.js"></script>
+        <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.jflip-0.4.js"></script>
+        <style type="text/css" media="all">
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+        .wrapper {
+            background: url('img/2-BG1.jpg') no-repeat;
+        }
+        canvas {
+            position: absolute;
+            top: 323px;
+            left: 844px
+        }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <img src="img/2-HAND.png" alt="" />
+        </div>
+        <ul id="pieces">
+            <li data-bg-img="img/2-BG1.jpg">
+                <img src="img/2-pin1.png" alt="" />
+            </li>
+            <li data-bg-img="img/2-BG2.jpg">
+                <img src="img/2-pin2.png" alt="" />
+            </li>
+        </ul>
+        <script type="text/javascript" charset="utf-8">
+
+            var images = new Array();
+
+            $('#pieces li').each(function() {
+                images.push($(this).data('bg-img'));
+                images.push($(this).children('img').attr('src'));
+            });
+
+
+            new preLoader(images, {
+                onComplete: function(loaded, errors) {
+                    $("#pieces").jFlip(220, 331, {
+                        background: "green",
+                        cornersTop: false,
+                        autoPlay: true
+                    }).
+                    bind("flip.jflip",function(event,index,total){
+                        var wrapper = $('.wrapper');
+                        wrapper.fadeOut(400, function(){
+                            wrapper.css('background-image', 'url("' + $($("#pieces li")[index]).data('bg-img') + '")');
+                            wrapper.fadeIn(400);
+                        });
+                    });;
+                }
+            });
+        </script>
+    </body>
+</html>
