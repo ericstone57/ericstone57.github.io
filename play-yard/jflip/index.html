@@ -54,7 +54,7 @@
                     var percent = Math.floor((100 / this.queue.length) * this.completed.length);
 
                     // update the progress element
-                    legend.innerHTML = '<span>' + index + ' / ' + this.queue.length + ' ('+percent+'%)</span>';
+                    legend.innerHTML = '<span>文件太大, 加载很慢, 等着! ' + index + ' / ' + this.queue.length + ' ('+percent+'%)</span>';
                 },
                 onComplete: function(loaded, errors) {
                     $('img[data-src]').each(function(){
