@@ -24,28 +24,43 @@
     </head>
     <body>
         <div class="wrapper">
-            <img src="img/2-HAND.png" alt="" />
+            <img data-src="img/2-HAND.png" alt="" />
         </div>
         <ul id="pieces">
             <li data-bg-img="img/2-BG1.jpg">
-                <img src="img/2-pin1.png" alt="" />
+                <img data-src="img/2-pin1.png" alt="" />
             </li>
             <li data-bg-img="img/2-BG2.jpg">
-                <img src="img/2-pin2.png" alt="" />
+                <img data-src="img/2-pin2.png" alt="" />
             </li>
         </ul>
         <script type="text/javascript" charset="utf-8">
 
             var images = new Array();
+            var legend = document.createElement('span');
+            document.body.appendChild(legend);
 
             $('#pieces li').each(function() {
                 images.push($(this).data('bg-img'));
-                images.push($(this).children('img').attr('src'));
+                images.push($('img[data-src]').data('src'));
             });
 
-
             new preLoader(images, {
+                onProgress: function(img, imageEl, index){
+                    // fires every time an image is done or errors. 
+                    // imageEl will be falsy if error
+                    console.log('just ' +  (!imageEl ? 'failed: ' : 'loaded: ') + img);
+
+                    var percent = Math.floor((100 / this.queue.length) * this.completed.length);
+
+                    // update the progress element
+                    legend.innerHTML = '<span>' + index + ' / ' + this.queue.length + ' ('+percent+'%)</span>';
+                },
                 onComplete: function(loaded, errors) {
+                    $('img[data-src]').each(function(){
+                        $(this).attr('src', $(this).data('src'));
+                    });
+
                     $("#pieces").jFlip(220, 331, {
                         background: "green",
                         cornersTop: false,
